@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Back End Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --sand: #E8DFD0;
+    --sage: #8FA882;
+    --sage-dark: #4A6741;
+    --sage-deep: #2D4A2A;
+    --forest: #1E3A1E;
+    --warm-white: #FDFAF5;
+    --charcoal: #1a1a1a;
+    --taupe: #C4B5A0;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--warm-white);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(253,250,245,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(196,181,160,0.3);
+    transition: all 0.3s ease;
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--forest);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--sage-dark); }
+
+  .nav-cta {
+    background: var(--forest);
+    color: var(--cream) !important;
+    padding: 0.6rem 1.4rem;
+    border-radius: 100px;
+  }
+
+  .nav-cta:hover { background: var(--sage-dark); color: var(--cream) !important; }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--forest);
+    transition: all 0.3s;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    background: var(--warm-white);
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3rem 4rem 5rem;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--sage);
+    color: white;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    width: fit-content;
+    margin-bottom: 1.8rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--forest);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--sage-dark);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #5a5a5a;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 0.9rem 2rem;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 2px solid var(--forest);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--forest);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--forest);
+    padding: 0.9rem 2rem;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 2px solid var(--taupe);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--forest);
+  }
+
+  .hero-right {
+    position: relative;
+    background: var(--sage);
+    overflow: hidden;
+    animation: fadeIn 1s 0.2s ease both;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(74,103,65,0.3) 0%, transparent 60%);
+    z-index: 1;
+  }
+
+  .hero-img-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-photo-box {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #8FA882 0%, #4A6741 50%, #2D4A2A 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .hero-photo-label {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--forest);
+    color: var(--cream);
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.4;
+    z-index: 2;
+  }
+
+  .hero-puzzle {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 80px;
+    opacity: 0.4;
+    z-index: 2;
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    background: var(--forest);
+    padding: 0.9rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+  }
+
+  .marquee-track span {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    padding: 0 2rem;
+  }
+
+  .marquee-track span.dot {
+    color: var(--sage);
+    padding: 0;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 5rem; }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--forest);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--sage-dark); }
+
+  /* ABOUT */
+  .about {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-img-wrap {
+    position: relative;
+  }
+
+  .about-img-box {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #8FA882, #4A6741);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-img-note {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1.5rem;
+    background: var(--warm-white);
+    border: 1px solid var(--sand);
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--forest);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    max-width: 200px;
+    line-height: 1.5;
+  }
+
+  .about-content p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #5a5a5a;
+    margin-bottom: 1.2rem;
+  }
+
+  .about-content p strong {
+    color: var(--forest);
+    font-weight: 500;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--sand);
+  }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--sage-dark);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: #888;
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+
+  /* WHO I HELP */
+  .who {
+    background: var(--warm-white);
+  }
+
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .who-card {
+    background: var(--cream);
+    border-radius: 4px;
+    padding: 2rem;
+    border-left: 3px solid var(--sage);
+    transition: transform 0.3s ease;
+  }
+
+  .who-card:hover { transform: translateY(-4px); }
+
+  .who-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--forest);
+    margin-bottom: 0.8rem;
+  }
+
+  .who-card p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #6a6a6a;
+  }
+
+  /* PACKAGES */
+  .packages {
+    background: var(--sage);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .packages::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+
+  .packages .section-label { color: rgba(255,255,255,0.7); }
+  .packages .section-title { color: white; }
+
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .package-card {
+    background: var(--warm-white);
+    border-radius: 4px;
+    padding: 2.5rem;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .package-card:hover { transform: translateY(-6px); }
+
+  .package-card.featured {
+    background: var(--forest);
+    color: white;
+  }
+
+  .package-tier {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .package-card.featured .package-tier { color: var(--sage); }
+
+  .package-name {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--forest);
+    margin-bottom: 0.8rem;
+    line-height: 1.1;
+  }
+
+  .package-card.featured .package-name { color: white; }
+
+  .package-desc {
+    font-size: 0.88rem;
+    color: #777;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    min-height: 60px;
+  }
+
+  .package-card.featured .package-desc { color: rgba(255,255,255,0.7); }
+
+  .package-price {
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--forest);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .package-card.featured .package-price { color: white; }
+
+  .package-freq {
+    font-size: 0.78rem;
+    color: #999;
+    margin-bottom: 0.3rem;
+  }
+
+  .package-card.featured .package-freq { color: rgba(255,255,255,0.6); }
+
+  .package-hours {
+    font-size: 0.78rem;
+    color: var(--sage-dark);
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.8rem;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  .package-card.featured .package-hours {
+    color: var(--sage);
+    border-bottom-color: rgba(255,255,255,0.15);
+  }
+
+  .package-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2rem;
+  }
+
+  .package-features li {
+    font-size: 0.85rem;
+    color: #5a5a5a;
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .package-features li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--sage-dark);
+    font-size: 0.75rem;
+  }
+
+  .package-card.featured .package-features li { color: rgba(255,255,255,0.8); }
+  .package-card.featured .package-features li::before { color: var(--sage); }
+
+  .package-btn {
+    display: block;
+    text-align: center;
+    padding: 0.85rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 2px solid var(--forest);
+    color: var(--forest);
+  }
+
+  .package-btn:hover {
+    background: var(--forest);
+    color: white;
+  }
+
+  .package-card.featured .package-btn {
+    border-color: white;
+    color: white;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .package-card.featured .package-btn:hover {
+    background: white;
+    color: var(--forest);
+  }
+
+  /* ONE OFF SERVICES */
+  .oneoff {
+    background: var(--forest);
+  }
+
+  .oneoff .section-label { color: var(--sage); }
+  .oneoff .section-title { color: white; }
+
+  .oneoff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .oneoff-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 2.5rem;
+    transition: background 0.3s;
+  }
+
+  .oneoff-card:hover { background: rgba(255,255,255,0.1); }
+
+  .oneoff-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .oneoff-card p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .oneoff-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .oneoff-features li {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.75);
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .oneoff-features li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--sage);
+    font-size: 0.6rem;
+    top: 4px;
+  }
+
+  .oneoff-btn {
+    display: inline-block;
+    padding: 0.75rem 1.8rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    transition: all 0.3s;
+  }
+
+  .oneoff-btn:hover {
+    background: white;
+    color: var(--forest);
+    border-color: white;
+  }
+
+  /* SYSTEMS */
+  .systems {
+    background: var(--sage-dark);
+  }
+
+  .systems .section-label { color: rgba(255,255,255,0.6); }
+  .systems .section-title { color: white; }
+
+  .systems-sub {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+    font-family: var(--font-display);
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+  }
+
+  .systems-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-width: 700px;
+  }
+
+  .system-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .system-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .system-name {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 400;
+  }
+
+  .system-desc {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.55);
+    margin-top: 0.2rem;
+  }
+
+  /* PROCESS */
+  .process {
+    background: var(--cream);
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 2rem;
+    left: calc(12.5% + 1rem);
+    right: calc(12.5% + 1rem);
+    height: 1px;
+    background: var(--taupe);
+  }
+
+  .step {
+    text-align: center;
+    position: relative;
+  }
+
+  .step-num {
+    width: 4rem;
+    height: 4rem;
+    background: var(--warm-white);
+    border: 2px solid var(--taupe);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--sage-dark);
+    margin: 0 auto 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--forest);
+    margin-bottom: 0.6rem;
+  }
+
+  .step p {
+    font-size: 0.85rem;
+    color: #777;
+    line-height: 1.6;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    background: var(--warm-white);
+  }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .testi-card {
+    background: var(--cream);
+    border-radius: 4px;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .testi-card::before {
+    content: '"';
+    font-family: var(--font-display);
+    font-size: 5rem;
+    color: var(--sage);
+    opacity: 0.3;
+    position: absolute;
+    top: -0.5rem;
+    left: 1.5rem;
+    line-height: 1;
+  }
+
+  .testi-text {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: #5a5a5a;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+  }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .testi-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--sage);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .testi-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--forest);
+  }
+
+  .testi-role {
+    font-size: 0.75rem;
+    color: #999;
+  }
+
+  /* BOOKING */
+  .booking {
+    background: var(--sage);
+    text-align: center;
+    padding: 6rem 5rem;
+  }
+
+  .booking .section-title { color: white; margin-bottom: 1rem; }
+
+  .booking p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .booking-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-white {
+    background: white;
+    color: var(--forest);
+    padding: 1rem 2.5rem;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 2px solid white;
+    font-weight: 500;
+  }
+
+  .btn-white:hover {
+    background: transparent;
+    color: white;
+  }
+
+  .btn-outline-white {
+    background: transparent;
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+
+  .btn-outline-white:hover {
+    border-color: white;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--forest);
+    padding: 3rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .footer-brand .nav-logo {
+    color: var(--cream);
+    font-size: 1.6rem;
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+  }
+
+  .footer-links h4 {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1rem;
+  }
+
+  .footer-links ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-links ul a {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links ul a:hover { color: white; }
+
+  .footer-contact h4 {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1rem;
+  }
+
+  .footer-contact p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+  }
+
+  .footer-contact a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+  }
+
+  .footer-bottom {
+    background: var(--forest);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 1.5rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* PHOTO PLACEHOLDER STYLING */
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .photo-placeholder svg {
+    opacity: 0.3;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* MOBILE NAV */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--sand);
+    padding: 1.5rem 2rem;
+    z-index: 99;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    text-decoration: none;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    section { padding: 4rem 1.5rem; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .hero-left { padding: 5rem 1.5rem 3rem; }
+    .hero-right { min-height: 50vw; }
+
+    .about { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    .about-img-wrap { max-width: 400px; }
+
+    .who-grid { grid-template-columns: 1fr; }
+    .packages-grid { grid-template-columns: 1fr; }
+    .oneoff-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .process-steps::before { display: none; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .systems-list { grid-template-columns: 1fr; }
+
+    footer { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.5rem; }
+    .footer-bottom { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+
+    .booking { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">The Back End Hub</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="mailto:hello.thebackendhub@gmail.com?subject=Work%20With%20Me%20Enquiry" class="nav-cta">Work With Me</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#packages" onclick="closeMenu()">Packages</a>
+  <a href="#process" onclick="closeMenu()">How It Works</a>
+  <a href="#contact" onclick="closeMenu()">Work With Me</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-tag">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5"/></svg>
+      Your VA Bestie &amp; The Back End Hub Founder
+    </div>
+    <h1 class="hero-headline">
+      You focus on<br><em>coaching.</em><br>I'll handle the rest.
+    </h1>
+    <p class="hero-sub">Inbox. Calendar. Content. Systems. Launches. All handled — so you can get back to doing what you actually love.</p>
+    <div class="hero-btns">
+      <a href="#packages" class="btn-primary">See Packages</a>
+      <a href="#about" class="btn-outline">Meet Tiana</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-box">
+      <img src="images/hero-logo.png" alt="The Back End Hub logo" class="hero-img-placeholder" style="object-fit: contain; padding: 3rem;">
+      <div class="hero-photo-label">
+        Your VA bestie &<br>The Back End Hub founder
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>We Control The Back End</span><span class="dot">✦</span>
+    <span>Inbox Management</span><span class="dot">✦</span>
+    <span>Systems &amp; Automation</span><span class="dot">✦</span>
+    <span>Content Scheduling</span><span class="dot">✦</span>
+    <span>Client Management</span><span class="dot">✦</span>
+    <span>Launch Support</span><span class="dot">✦</span>
+    <span>We Control The Back End</span><span class="dot">✦</span>
+    <span>Inbox Management</span><span class="dot">✦</span>
+    <span>Systems &amp; Automation</span><span class="dot">✦</span>
+    <span>Content Scheduling</span><span class="dot">✦</span>
+    <span>Client Management</span><span class="dot">✦</span>
+    <span>Launch Support</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-img-wrap">
+    <div class="about-img-box">
+      <img src="images/tiana-about.jpg" alt="Tiana, founder of The Back End Hub" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+    <div class="about-img-note">
+      5 years on the gym floor — I get your world.
+    </div>
+  </div>
+  <div class="about-content">
+    <p class="section-label">Hi There, I'm Tiana 👋</p>
+    <h2 class="section-title">Where it<br>all <em>began</em></h2>
+    <p>Before The Back End Hub, I was Coach T. <strong>5 years on the gym floor</strong>, mobile PT, building an online coaching business from scratch — and most importantly, doing everything myself.</p>
+    <p>The training, the content, the emails, the admin, the systems, the launches. All of it. Alone.</p>
+    <p>I know what it feels like to be <strong>incredible at what you do</strong> but completely drowning in the backend of your business. That's exactly why I built The Back End Hub.</p>
+    <p>You don't need someone to micromanage or hand-hold. You need someone who <strong>already gets the world you're in</strong> — someone who can just step in and get it done.</p>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Years in the fitness industry</div>
+      </div>
+      <div>
+        <div class="stat-num">3</div>
+        <div class="stat-label">Service tiers to suit your stage</div>
+      </div>
+      <div>
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Hours given back to you</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO I HELP -->
+<section class="who" id="who">
+  <p class="section-label">So who do I help?</p>
+  <h2 class="section-title">Built for coaches who are<br><em>brilliant at what they do</em></h2>
+  <div class="who-grid">
+    <div class="who-card">
+      <h3>Online Coaches</h3>
+      <p>You're serving clients, showing up on socials, managing your inbox and trying to grow — somewhere in there the backend started taking over everything.</p>
+    </div>
+    <div class="who-card">
+      <h3>Personal Trainers</h3>
+      <p>Whether you're on the gym floor, mobile or running online sessions — you're busy training people all day and drowning in admin at night. You need support that works while you work.</p>
+    </div>
+    <div class="who-card">
+      <h3>Growing Business Owners</h3>
+      <p>You've got the clients, the content, the vision — but the operations are holding you back from the next level. Let's fix that.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="packages">
+  <p class="section-label">Our Packages</p>
+  <h2 class="section-title">Find your<br><em>perfect fit</em></h2>
+  <div class="packages-grid">
+
+    <!-- Tier 1 -->
+    <div class="package-card">
+      <div class="package-tier">Tier 1</div>
+      <h3 class="package-name">Essentials</h3>
+      <p class="package-desc">For business owners who just need the small &amp; annoying admin tasks off their plate.</p>
+      <div class="package-price">$700</div>
+      <div class="package-freq">per month</div>
+      <div class="package-hours">4 hrs/week · ~16 hrs/month</div>
+      <ul class="package-features">
+        <li>Inbox organisation (limited hours)</li>
+        <li>Email scheduling (client provides content)</li>
+        <li>Content scheduling &amp; strategy guidance</li>
+        <li>Notion template for tracking business growth</li>
+        <li>Reminders (launches, posts &amp; tasks)</li>
+        <li>Basic document management</li>
+        <li>WhatsApp support (48-hr response)</li>
+        <li>1 monthly check-in</li>
+      </ul>
+      <a href="mailto:hello.thebackendhub@gmail.com?subject=Enquiry%20-%20Essentials%20Package" class="package-btn">Get Started</a>
+    </div>
+
+    <!-- Tier 2 - Featured -->
+    <div class="package-card featured">
+      <div class="package-tier">Tier 2 — Most Popular</div>
+      <h3 class="package-name">Online Coach Support</h3>
+      <p class="package-desc">For coaches who want their entire backend handled — clients, content, leads, launches &amp; finances.</p>
+      <div class="package-price">$1,500</div>
+      <div class="package-freq">per month</div>
+      <div class="package-hours">6 hrs/week · ~24 hrs/month</div>
+      <ul class="package-features">
+        <li>Everything in Tier 1</li>
+        <li>Client check-in system management</li>
+        <li>Weekly client organisation &amp; progress tracking</li>
+        <li>Podcast production support (if needed)</li>
+        <li>Email marketing &amp; client retention systems</li>
+        <li>Content planning + 2 edited reels/week</li>
+        <li>Launch planning support</li>
+        <li>Calendar &amp; inbox management</li>
+        <li>Weekly admin checklist &amp; task systems</li>
+        <li>Income &amp; expense tracking</li>
+        <li>Budget organisation &amp; weekly business reports</li>
+      </ul>
+      <a href="mailto:hello.thebackendhub@gmail.com?subject=Enquiry%20-%20Online%20Coach%20Support%20Package" class="package-btn">Get Started</a>
+    </div>
+
+    <!-- Tier 3 -->
+    <div class="package-card">
+      <div class="package-tier">Tier 3</div>
+      <h3 class="package-name">Growth Support</h3>
+      <p class="package-desc">For business owners who want more operational support and systems to grow their business.</p>
+      <div class="package-price">$2,250</div>
+      <div class="package-freq">per month</div>
+      <div class="package-hours">10 hrs/week · ~40 hrs/month</div>
+      <ul class="package-features">
+        <li>Everything in Tier 1 &amp; 2</li>
+        <li>Lead tracking system setup &amp; DM follow ups</li>
+        <li>Client onboarding system setup</li>
+        <li>Weekly content planning &amp; organisation</li>
+        <li>Email marketing planning &amp; strategy</li>
+        <li>Notion dashboards for client &amp; business systems</li>
+        <li>Booking &amp; calendar management</li>
+        <li>Monthly performance/growth reports</li>
+        <li>2 strategy check-ins per month</li>
+        <li>Launch support</li>
+      </ul>
+      <a href="mailto:hello.thebackendhub@gmail.com?subject=Enquiry%20-%20Growth%20Support%20Package" class="package-btn">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- ONE OFF SERVICES -->
+<section class="oneoff" id="services">
+  <p class="section-label">One Off Services</p>
+  <h2 class="section-title">Not ready for<br><em>a package?</em></h2>
+  <div class="oneoff-grid">
+    <div class="oneoff-card">
+      <h3>Hire a VA for a Day</h3>
+      <p>6 hours of personalised virtual assistant support — we go through your deliverables and priorities before we get started.</p>
+      <ul class="oneoff-features">
+        <li>6 hours minimum of VA support</li>
+        <li>Discovery call to review your priorities</li>
+        <li>Expertise in streamlining processes &amp; tackling tasks</li>
+        <li>Detailed handover &amp; actionable recommendations</li>
+      </ul>
+      <a href="mailto:hello.thebackendhub@gmail.com?subject=Enquiry%20-%20VA%20for%20a%20Day" class="oneoff-btn">Enquire Now</a>
+    </div>
+    <div class="oneoff-card">
+      <h3>Event Setup</h3>
+      <p>Need help setting up and managing the backend of an event, workshop, or launch? I've got you covered.</p>
+      <ul class="oneoff-features">
+        <li>Event logistics &amp; planning support</li>
+        <li>Registration &amp; communication setup</li>
+        <li>Systems &amp; checklist creation</li>
+        <li>On-the-day support available</li>
+      </ul>
+      <a href="mailto:hello.thebackendhub@gmail.com?subject=Enquiry%20-%20Event%20Setup" class="oneoff-btn">Enquire Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEMS -->
+<section class="systems">
+  <p class="section-label">Systems That Support You</p>
+  <h2 class="section-title">We work within the<br><em>tools you already love</em></h2>
+  <p class="systems-sub">No learning curve. No starting from scratch.</p>
+  <div class="systems-list">
+    <div class="system-item">
+      <div class="system-icon">📋</div>
+      <div>
+        <div class="system-name">Notion</div>
+        <div class="system-desc">Central hub for all client trackers, templates &amp; checklists</div>
+      </div>
+    </div>
+    <div class="system-item">
+      <div class="system-icon">📁</div>
+      <div>
+        <div class="system-name">Google Drive / Dropbox</div>
+        <div class="system-desc">File management &amp; document organisation</div>
+      </div>
+    </div>
+    <div class="system-item">
+      <div class="system-icon">💰</div>
+      <div>
+        <div class="system-name">Xero / QuickBooks</div>
+        <div class="system-desc">Income tracking &amp; expense management</div>
+      </div>
+    </div>
+    <div class="system-item">
+      <div class="system-icon">📅</div>
+      <div>
+        <div class="system-name">Google Calendar</div>
+        <div class="system-desc">Scheduling, reminders &amp; calendar management</div>
+      </div>
+    </div>
+    <div class="system-item">
+      <div class="system-icon">📧</div>
+      <div>
+        <div class="system-name">Gmail / Email Platforms</div>
+        <div class="system-desc">Inbox management &amp; email scheduling</div>
+      </div>
+    </div>
+    <div class="system-item">
+      <div class="system-icon">📱</div>
+      <div>
+        <div class="system-name">Instagram / Socials</div>
+        <div class="system-desc">Content scheduling &amp; strategy support</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <p class="section-label">How It Works</p>
+  <h2 class="section-title">Getting started is<br><em>easier than you think</em></h2>
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Discovery Call</h3>
+      <p>We hop on a call to understand your business, your pain points and where you need the most support.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Choose Your Package</h3>
+      <p>We match you with the right tier or build a custom package that suits exactly where you're at.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Onboarding</h3>
+      <p>I set up your systems, get access to your tools and we create a workflow that runs smoothly from day one.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Breathe Again</h3>
+      <p>You focus on coaching. I handle the rest. Weekly check-ins keep us aligned and everything moving forward.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <p class="section-label">Kind Words</p>
+  <h2 class="section-title">What coaches are<br><em>saying</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <p class="testi-text">Add your first testimonial here — reach out to a past client or someone who can speak to your work ethic and skills!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">A</div>
+        <div>
+          <div class="testi-name">Client Name</div>
+          <div class="testi-role">Online Coach</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-text">Replace this with a real testimonial. Even a DM screenshot or a kind message from someone you've helped is perfect.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">B</div>
+        <div>
+          <div class="testi-name">Client Name</div>
+          <div class="testi-role">Mobile PT</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-text">Your social proof will go here. In the meantime, consider sharing screenshots of positive feedback you've received.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">C</div>
+        <div>
+          <div class="testi-name">Client Name</div>
+          <div class="testi-role">Fitness Business Owner</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING / CONTACT -->
+<section class="booking" id="contact">
+  <p class="section-label" style="color:rgba(255,255,255,0.7);">Ready when you are 👆</p>
+  <h2 class="section-title">Let's take the<br><em>backend off your plate</em></h2>
+  <p>DM me "BACKEND" on Instagram or book a free discovery call below — let's figure out how I can best support you.</p>
+  <div class="booking-btns">
+    <a href="mailto:hello.thebackendhub@gmail.com?subject=Discovery%20Call%20Request" class="btn-white">Book a Discovery Call</a>
+    <a href="https://instagram.com/tianadeanne.va" target="_blank" class="btn-outline-white">DM on Instagram</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <span class="nav-logo">The Back End Hub</span>
+    <p>Your VA bestie for online coaches and PTs who are ready to hand over the backend and get back to what they love.</p>
+  </div>
+  <div class="footer-links">
+    <h4>Navigate</h4>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#services">One Off Services</a></li>
+      <li><a href="#process">How It Works</a></li>
+      <li><a href="#contact">Work With Me</a></li>
+    </ul>
+  </div>
+  <div class="footer-contact">
+    <h4>Get In Touch</h4>
+    <p>
+      Instagram: <a href="https://instagram.com/tianadeanne.va" target="_blank">@tianadeanne.va</a><br><br>
+      Linktree: <a href="https://linktr.ee/thebackendhub_" target="_blank">linktr.ee/thebackendhub_</a><br><br>
+      Based in Melbourne, Australia 🌿<br>
+      Serving clients Australia-wide &amp; online
+    </p>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2026 The Back End Hub. All rights reserved.</p>
+  <p>Built with 💚 for booked-out coaches</p>
+</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  // Smooth scroll offset for fixed nav
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.package-card, .who-card, .oneoff-card, .step, .testi-card, .system-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
